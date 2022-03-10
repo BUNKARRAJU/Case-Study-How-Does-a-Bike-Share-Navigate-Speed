@@ -8,7 +8,7 @@ library(tidyr) #helps clean data
 library(geosphere)
 library("dplyr")
 
-# Read the trip data from 202005 - 202104 (12 months)
+# Read the trip data from May 2020 to April 2021 (12 months)
 tripdata_2020_05 <- read.csv("202005-divvy-tripdata.csv")
 tripdata_2020_06 <- read.csv("202006-divvy-tripdata.csv")
 tripdata_2020_07 <- read.csv("202007-divvy-tripdata.csv")
