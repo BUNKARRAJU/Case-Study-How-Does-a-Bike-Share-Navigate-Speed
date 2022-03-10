@@ -8,7 +8,7 @@ library(tidyr) #helps clean data
 library(geosphere)
 library("dplyr")
 
-# Read the trip data from May 2020 to April 2021 (12 months)
+# Read the trip data from 202005 - 202104 (12 months)
 tripdata_2020_05 <- read.csv("202005-divvy-tripdata.csv")
 tripdata_2020_06 <- read.csv("202006-divvy-tripdata.csv")
 tripdata_2020_07 <- read.csv("202007-divvy-tripdata.csv")
@@ -171,10 +171,42 @@ all_trips_v3 %>%
   group_by(member_casual) %>%
   filter(ride_distance < 1) %>%
   summarize(number_of_rides = n() , .groups = 'drop')
-
+#visualization starts
 
 all_trips_v3 %>%
   group_by(member_casual, day_of_week) %>%
   summarise(number_of_rides = n(), .groups = 'drop') %>%
   ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) + 
+  geom_bar(position = "dodge", stat = "identity")
+all_trips_v3 %>%
+  group_by(member_casual, month) %>%
+  summarise(number_of_rides = n(), .groups = 'drop') %>%
+  ggplot(aes(x = month, y = number_of_rides, fill = member_casual)) + 
+  geom_bar(position = "dodge", stat = "identity")
+all_trips_v3 %>%
+  group_by(member_casual, day_of_week) %>%
+  summarise(average_ride_length = mean(ride_length), .groups = 'drop') %>%
+  ggplot(aes(x = day_of_week, y = average_ride_length, fill = member_casual)) + 
+  geom_bar(position = "dodge", stat = "identity")
+
+all_trips_v3 %>%
+  group_by(member_casual, month) %>%
+  summarise(average_ride_length = mean(ride_length), .groups = 'drop') %>%
+  ggplot(aes(x = month, y = average_ride_length, fill = member_casual)) + 
+  geom_bar(position = "dodge", stat = "identity")
+all_trips_v3 %>%
+  group_by(member_casual) %>%
+  filter(ride_distance < 10000) %>% #Remove outliner
+  ggplot(aes(x = ride_distance, fill = member_casual)) + 
+  geom_histogram() #Disregard binwidth
+all_trips_v3 %>%
+  group_by(member_casual, day_of_week) %>%
+  summarise(average_ride_distance = mean(ride_distance), .groups = 'drop') %>%
+  ggplot(aes(x = day_of_week, y = average_ride_distance, fill = member_casual)) + 
+  geom_bar(position = "dodge", stat = "identity")
+
+all_trips_v3 %>%
+  group_by(member_casual, month) %>%
+  summarise(average_ride_distance = mean(ride_distance), .groups = 'drop') %>%
+  ggplot(aes(x = month, y = average_ride_distance, fill = member_casual)) + 
   geom_bar(position = "dodge", stat = "identity")
